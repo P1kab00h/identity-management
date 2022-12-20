@@ -10,6 +10,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LdapDetailComponent } from './ldap-detail/ldap-detail.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LdapEditComponent } from './ldap-edit/ldap-edit.component';
+import { LdapAddComponent } from './ldap-add/ldap-add.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LdapListComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    LdapDetailComponent
+    LdapDetailComponent,
+    LdapEditComponent,
+    LdapAddComponent
   ],
   imports: [
     BrowserModule,
