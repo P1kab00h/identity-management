@@ -5,17 +5,12 @@ import { UsersService } from '../service/users.service';
 import { UserLdap } from '../model/user-ldap';
 import { FormBuilder } from '@angular/forms';
 
-@Component({
-  selector: 'app-ldap-detail',
-  templateUrl: './ldap-detail.component.html',
-  styleUrls: ['./ldap-detail.component.scss']
-})
-
-export class LdapDetailComponent implements OnInit {
+export abstract class LdapDetailComponent {
 
   user: UserLdap;
   processLoadRuning = false;
   processValidateRunning = false;
+  passwordPlaceHolder: string;
 
   userForm = this.fb.group({
     login: [''], //valeur vide au départ
@@ -29,23 +24,27 @@ export class LdapDetailComponent implements OnInit {
     mail: {value: '', disabled: true},
   });
 
-  constructor(
-    private usersService: UsersService, 
-    private route: ActivatedRoute,
+  protected constructor(
+    public addForm: boolean,
+    //private usersService: UsersService, 
+    //private route: ActivatedRoute,
+    // A voir => protected route: ActivatedRoute,
     private fb: FormBuilder,
     private router: Router,
-    ) {}
+    ) {
+      this.passwordPlaceHolder = 'Mot de passe' + (this.addForm ? '' : ' (vide si inchangé)');
+    }
 
-  ngOnInit() :void {
-    this.getUser();
+  protected ngOnInit() :void {
+    //this.getUser();
   }
-  private getUser(): void {
-    const login = this.route.snapshot.paramMap.get('id');
-    console.log("getUser : " + login)
-    //this.usersService.getUser(login).subscribe(
-    //  user => { this.user = user; console.log("LdapDetail getUser : "); console.log(user); }
-    //);
+
+  isFormValid(): boolean {
+    return this.userForm.valid && (!this.addForm || this.formGetValue('passwordGroup.password') !== '');
   }
+
+  abstract validateForm(): void;
+
   private formGetValue(name: string): any { 
     return this.userForm.get(name).value;
   }
@@ -55,19 +54,53 @@ export class LdapDetailComponent implements OnInit {
   }
 
   onSubmitForm() {
-    // Validation des données "TO BE IMPLEMENTED"
+    this.validateForm();
   }
 
   updateLogin(): void {
-    this.userForm.get('login').setValue((this.formGetValue('prenom')
-    + '.' + this.formGetValue('nom')).toLowerCase());
-    this.updateMail();
+    if (this.addForm) {
+      this.userForm.get('login').setValue((this.formGetValue('prenom')
+      + '.' + this.formGetValue('nom')).toLowerCase());
+      this.updateMail();
+    }
   }
 
   updateMail(): void {
-    this.userForm.get('mail').setValue(this.formGetValue('login').toLowerCase()
-    + '@epsi.lan');
+    if (this.addForm) {
+      this.userForm.get('mail').setValue(this.formGetValue('login').toLowerCase()
+      + '@epsi.lan');
+    }
   }
 
-  isFormValid(): boolean { return false; }
+  protected copyUserToFormControl(): void {
+    this.userForm.get('login').setValue(this.user.login);
+    this.userForm.get('nom').setValue(this.user.nom);
+    this.userForm.get('prenom').setValue(this.user.prenom);
+    this.userForm.get('mail').setValue(this.user.mail);
+    /*
+    this.userForm.get('employeNumero').setValue(this.user.employeNumero);
+    this.userForm.get('employeNiveau').setValue(this.user.employeNiveau);
+    this.userForm.get('dateEmbauche').setValue(this.user.dateEmbauche);
+    this.userForm.get('publisherId').setValue(this.user.publisherId);
+    this.userForm.get('active').setValue(this.user.active);
+    */
+  }
+
+  protected getUserFormFormControl(): UserLdap {
+    return {
+      login: this.userForm.get('login').value,
+      nom: this.userForm.get('nom').value,
+      prenom: this.userForm.get('prenom').value,
+      nomComplet: this.userForm.get('nom').value + ' ' + this.userForm.get('prenom').value,
+      mail: this.userForm.get('mail').value,
+      // valeur devant être reprise depuis le formulaire
+      employeNumero: 1, // this.userForm.get('employeNumero').value,
+      employeNiveau: 1, // this.userForm.get('employeNiveau').value,
+      dateEmbauche: '2020-04-24', // this.userForm.get('dateEmbauche').value,
+      publisherId: 1, // this.userForm.get('publisherId').value,
+      active: true,
+      motDePasse: '',
+      role: 'ROLE_USER'
+    };
+  }
 }

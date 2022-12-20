@@ -2,7 +2,7 @@
     <button mat-icon-button (click)="goToLdap()">
         <mat-icon aria-label="Acceuil">arrow_back</mat-icon>
     </button>
-    Edition d'un utilisateur
+    {{ addForm ? "Ajout d'un utilisateur" : "Edition d'un utilisateur"}}
 </h3>
 
 <section class="loading" *ngIf="processLoadRuning==true">
@@ -61,8 +61,9 @@
             <td>
                 <mat-form-field class="user-full-width">
                     <input tpye="password" matInput
-                    placeholder="Mot de passe"
+                    [placeholder]="passwordPlaceHolder"
                     id="password" formControlName="password"
+                    [errorStateMatcher]="confirmValidParentMatcher"
                     />
                 </mat-form-field>
             </td>

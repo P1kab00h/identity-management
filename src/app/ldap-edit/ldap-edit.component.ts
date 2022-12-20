@@ -24,5 +24,13 @@ export class LdapEditComponent extends LdapDetailComponent implements OnInit {
  validateForm(): void {
   console.log('LdapEditComponent - validateForm');
  }
- 
+
+ private getUser(): void {
+  const login = this.route.snapshot.paramMap.get('id');
+  console.log("getUser : " + login)
+  //this.usersService.getUser(login).subscribe(
+  //  user => { this.user = user; console.log("LdapDetail getUser : "); console.log(user); }
+  //);
+}
+
 }

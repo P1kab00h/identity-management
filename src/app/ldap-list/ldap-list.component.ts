@@ -25,6 +25,7 @@ export class LdapListComponent implements OnInit {//, AfterViewInit {
 
   constructor(private usersService: UsersService, private router: Router) {
   }
+  
 
   ngOnInit(): void {
     //console.log('Values on ngOnInit() :');
@@ -33,9 +34,11 @@ export class LdapListComponent implements OnInit {//, AfterViewInit {
     //console.log('Mat Paginator : ', this.paginator);
     this.getUsers();
   }
+
   filterPredicate(data, filter): boolean {
     return !filter || data.nomComplet.toLowerCase().startsWith(filter);
   }
+
   applyFilter($event: KeyboardEvent): void {
     const filterValue = ($event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -65,6 +68,15 @@ export class LdapListComponent implements OnInit {//, AfterViewInit {
         }
       });
   }
+
+  addUser() {
+    this.router.navigate(['/user/add']).then( (e) => {
+      if(!e) {
+        console.log('Navigation has failed !');
+      }
+    });
+  }
+
   unactiveChanged($event: MatSlideToggleChange): void {
     this.unactiveSelected = $event.checked;
     this.getUsers();
