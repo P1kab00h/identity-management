@@ -1,16 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { UsersService } from '../service/users.service';
 import { UserLdap } from '../model/user-ldap';
 import { FormBuilder } from '@angular/forms';
+import { ConfirmValidParentMatcher, passwordValidator } from './passwords-validator.directive';
+
+// TODO verifier le @inject dans cette situation si tout est ok ?
+@Inject({
+})
 
 export abstract class LdapDetailComponent {
-
   user: UserLdap;
   processLoadRuning = false;
   processValidateRunning = false;
+  // placeholder password pour edition
   passwordPlaceHolder: string;
+  // initialisation variable pour message erreur
+  errorMessage = "";
+
+  confirmValidParentMatcher = new ConfirmValidParentMatcher();
 
   userForm = this.fb.group({
     login: [''], //valeur vide au départ
@@ -20,7 +29,7 @@ export abstract class LdapDetailComponent {
     passwordGroup: this.fb.group({
       password: [''],
       confirmPassword: ['']
-    }),
+    }, { validators: passwordValidator }),
     mail: {value: '', disabled: true},
   });
 

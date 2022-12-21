@@ -10,6 +10,8 @@
     <span>&nbsp; En cours de chargement ...</span>
 </section>
 
+<app-alert *ngIf="errorMessage.length>0" [type]="'danger'">{{ errorMessage }}</app-alert>
+
 <form class="user-form" *ngIf="processLoadRuning==false"
 [formGroup]="userForm"
 (ngSubmit)="onSubmitForm()">
@@ -22,6 +24,7 @@
                     id="nom" formControlName="nom" required
                     (input)="updateLogin()"
                     />
+                    <mat-error>Le nom est requis</mat-error>
                 </mat-form-field>
             </td>
             <td>
@@ -65,14 +68,17 @@
                     id="password" formControlName="password"
                     [errorStateMatcher]="confirmValidParentMatcher"
                     />
+                    <mat-error>Les mots de passes doivent être identiques</mat-error>
                 </mat-form-field>
             </td>
             <td>
                 <mat-form-field class="user-full-width">
-                <input type="password" matInput class="form-control"
-                placeholder="Vérifaction du mot de passe"
+                <input type="password" matInput class="form-control" 
+                    placeholder="Vérifaction du mot de passe"
                     id="confirmPassword" formControlName="confirmPassword"
+                    [errorStateMatcher]="confirmValidParentMatcher"
                     />
+                    <mat-error>Les mots de passes doivent être identiques</mat-error>
                 </mat-form-field>
             </td>
         </tr>
