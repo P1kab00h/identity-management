@@ -7,7 +7,10 @@ import { AppMaterialModule } from "src/app/app-material.module";
 import { AlertComponent } from "../share/alert/alert.component";
 import { LdapManagementRoutingModule } from "./ldap-management-routing.module";
 import { LdapListComponent } from "./ldap-list/ldap-list.component";
-import { MatIconModule } from "@angular/material/icon";
+import { LdapAddComponent } from "./ldap-add/ldap-add.component";
+import { LdapEditComponent } from "./ldap-edit/ldap-edit.component";
+import { NavbarComponent } from "./navbar/navbar.component";
+
 
 
 
@@ -16,7 +19,11 @@ import { MatIconModule } from "@angular/material/icon";
 @NgModule({
   declarations: [
     LdapListComponent,
+    LdapAddComponent,
+    LdapEditComponent,
     AlertComponent,
+    NavbarComponent,
+
   ],
   imports: [
     CommonModule,
@@ -24,8 +31,10 @@ import { MatIconModule } from "@angular/material/icon";
     FormsModule,
     ReactiveFormsModule,
     AppMaterialModule,
-    MatIconModule,
     LdapManagementRoutingModule,
+  ],
+  exports: [
+    NavbarComponent,
   ]
 })
 export class LdapManagementModule { }
