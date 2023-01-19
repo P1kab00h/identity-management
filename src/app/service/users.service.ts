@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { LDAP_USERS } from '../model/ldap-mock-data';
@@ -10,6 +11,7 @@ export class UsersService {
   // Liste des utilisateurs (mock file => ldap-mock-data.ts)
   users: UserLdap[] = LDAP_USERS; // ??? TODO : check if 'static' work
   static users: any;  // ??? à tester 
+  private usersUrl = 'api/users';
 
 
   addUser(user: UserLdap): Observable<UserLdap> {
@@ -33,13 +35,16 @@ export class UsersService {
   }
 
   getUsers(): Observable<UserLdap[]> {
-    return of(this.users);
+    //return of(this.users);
+    return this.http.get<UserLdap[]>(this.usersUrl);
   }
 
-  getUser(login: string): Observable<UserLdap> {
-    return of (this.users.find(user => user.login === login));
+// getUser(login: string): Observable<UserLdap> {
+//   return of (this.users.find(user => user.login === login));
+//   }
+  getUser(id: number): Observable<UserLdap> {
+    return this.http.get<UserLdap>(this.usersUrl + '/' + id);
   }
 
-
-  constructor() { }
+  constructor(private http: HttpClient) { }
 }

@@ -2,6 +2,7 @@ import { UserLdap } from "./user-ldap";
 
 export const LDAP_USERS: UserLdap[] = [
     {
+        id: 1,
         login: 'test.v1',
         nom: 'V1',
         prenom: 'test',
@@ -16,6 +17,7 @@ export const LDAP_USERS: UserLdap[] = [
         active: true,
     },
     {
+        id: 2,
         login: 'test.v2',
         nom: 'V2',
         prenom: 'test',
@@ -30,6 +32,7 @@ export const LDAP_USERS: UserLdap[] = [
         active: true,
     },
     {
+        id: 3,
         login: 'test.v3',
         nom: 'V3',
         prenom: 'test',
@@ -44,6 +47,7 @@ export const LDAP_USERS: UserLdap[] = [
         active: true,
     },
     {
+        id: 4,
         login: 'test.v4Unactive',
         nom: 'v4Unactive',
         prenom: 'test',
@@ -58,6 +62,7 @@ export const LDAP_USERS: UserLdap[] = [
         active: false,
     },
     {
+        id: 5,
         login: 'test.v5Unactive',
         nom: 'v5Unactive',
         prenom: 'test',
