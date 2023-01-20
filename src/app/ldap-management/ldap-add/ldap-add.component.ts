@@ -7,7 +7,8 @@ import { LdapDetailComponent } from '../ldap-detail/ldap-detail.component';
 
 
 @Component({
-  selector: 'app-ldap-edit',
+  //selector: 'app-ldap-edit',
+  selector: 'app-ldap-add',
   templateUrl: '../ldap-detail/ldap-detail.component.html',
   styleUrls: ['../ldap-detail/ldap-detail.component.scss']
 })

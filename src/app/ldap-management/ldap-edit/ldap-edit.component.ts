@@ -28,8 +28,9 @@ export class LdapEditComponent extends LdapDetailComponent implements OnInit {
 
   validateForm(): void {
     console.log('LdapEditComponent - validateForm');
+    const id = +this.route.snapshot.paramMap.get('id');
     this.processValidateRunning = true;
-    this.usersService.updateUser(this.getUserFormFormControl()).subscribe(
+    this.usersService.updateUser(this.getUserFormFormControl(), id).subscribe(
       data => {
         this.processValidateRunning = false;
         this.errorMessage = '';
